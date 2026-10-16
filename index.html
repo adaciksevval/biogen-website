@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Türkiye İklim Krizi Biyo-İndikatörleri | KGTÜ Biogen Topluluğu</title>
+  <meta name="description" content="Türkiye İklim Krizi Biyo-İndikatörleri: Ulusal Saha Gözlem ve Veri Toplama Çalıştayı. KGTÜ Biogen Topluluğu tarafından yürütülen bir vatandaş bilimi projesi." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50: '#eef5f0', 100: '#d5e8db', 200: '#a9d0b6', 300: '#76b38c', 400: '#4a9366', 500: '#2f7a4f', 600: '#22623f', 700: '#1c4f34', 800: '#173f2b', 900: '#102c1f', 950: '#0a1c14' },
+            earth:  { 50: '#faf6f0', 100: '#f1e8da', 200: '#e2cfb3', 300: '#cfb084', 400: '#b98f5c', 500: '#a07443', 600: '#835c36', 700: '#69482d', 800: '#523927', 900: '#3d2b1e' },
+            moss:   '#8fae5a',
+            sand:   '#f6f3ec'
+          },
+          fontFamily: {
+            display: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'Segoe UI', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="icon" type="image/jpeg" href="images/biogen.jpg" />
+  <link rel="apple-touch-icon" href="images/biogen.jpg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-sand font-sans text-forest-950 antialiased">
+
+  <!-- ============ HEADER ============ -->
+  <header id="siteHeader" class="fixed inset-x-0 top-0 z-50 transition-all duration-300">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 lg:px-8" aria-label="Ana menü">
+      <a href="#anasayfa" class="flex items-center gap-3">
+        <span class="logo-badge h-14 w-14 shadow-lg shadow-forest-900/20 sm:h-16 sm:w-16">
+          <img src="images/biogen.jpg" alt="KGTÜ Biogen Topluluğu logosu" width="64" height="64" />
+        </span>
+        <span class="leading-tight">
+          <span class="nav-brand block font-display text-base font-semibold sm:text-lg">KGTÜ Biogen Topluluğu</span>
+          <span class="nav-sub hidden text-[11px] font-medium uppercase tracking-[0.16em] sm:block">Biyoloji · Genetik · Biyoteknoloji</span>
+        </span>
+      </a>
+
+      <ul class="hidden items-center gap-1 lg:flex">
+        <li><a href="#anasayfa" class="nav-link">Ana Sayfa</a></li>
+        <li><a href="#hakkinda" class="nav-link">Proje Hakkında</a></li>
+        <li><a href="#takvim" class="nav-link">Çalıştay Takvimi</a></li>
+        <li><a href="#veri-yukle" class="nav-link">Veri Yükle</a></li>
+        <li><a href="#iletisim" class="nav-link">İletişim</a></li>
+      </ul>
+
+      <a href="#veri-yukle" class="hidden rounded-full bg-earth-400 px-5 py-2.5 text-sm font-semibold text-forest-950 shadow-md transition hover:bg-earth-300 lg:inline-flex">
+        Başvur
+      </a>
+
+      <button id="menuToggle" class="nav-burger grid h-11 w-11 place-items-center rounded-xl lg:hidden" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileMenu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="burger-top" stroke-linecap="round" d="M4 7h16" />
+          <path class="burger-mid" stroke-linecap="round" d="M4 12h16" />
+          <path class="burger-bot" stroke-linecap="round" d="M4 17h16" />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu lg:hidden" hidden>
+      <ul class="mx-5 mb-4 space-y-1 rounded-2xl bg-white p-3 shadow-xl ring-1 ring-forest-900/5">
+        <li><a href="#anasayfa" class="mobile-link">Ana Sayfa</a></li>
+        <li><a href="#hakkinda" class="mobile-link">Proje Hakkında</a></li>
+        <li><a href="#takvim" class="mobile-link">Çalıştay Takvimi</a></li>
+        <li><a href="#veri-yukle" class="mobile-link">Veri Yükle</a></li>
+        <li><a href="#iletisim" class="mobile-link">İletişim</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section id="anasayfa" class="hero relative flex min-h-screen items-center overflow-hidden">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-32 lg:px-8">
+        <div class="max-w-3xl">
+          <span class="reveal inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-forest-100 backdrop-blur">
+            <span class="pulse-dot"></span>
+            Ulusal Çağrı · Türkiye'nin İklim Krizi İzleri
+          </span>
+
+          <h1 class="reveal mt-6 font-display text-4xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-7xl">
+            Doğa iklim krizini <span class="text-earth-300 italic">çoktan</span> kayda geçiriyor.
+          </h1>
+
+          <p class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-forest-100/90 sm:text-xl">
+            <strong class="font-semibold text-white">Türkiye İklim Krizi Biyo-İndikatörleri:</strong>
+            Ulusal Saha Gözlem ve Veri Toplama Çalıştayı. Bölgendeki likenleri, kuruyan bitkileri ve iklim krizinin
+            bıraktığı izleri fotoğrafla; Türkiye'nin ekolojik haritasına katkı sağla.
+          </p>
+
+          <div class="reveal mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <a href="#veri-yukle" class="group inline-flex items-center justify-center gap-2 rounded-full bg-earth-400 px-8 py-4 text-base font-semibold text-forest-950 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-earth-300">
+              Hemen Veri Yükle
+              <svg class="h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </a>
+            <a href="#hakkinda" class="inline-flex items-center justify-center rounded-full border border-white/30 px-8 py-4 text-base font-semibold text-white transition hover:bg-white/10">
+              Projeyi Keşfet
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero stats -->
+        <dl class="reveal mt-16 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur">
+          <div class="bg-forest-950/40 p-4 sm:p-5">
+            <dt class="text-xs uppercase tracking-wider text-forest-200">Kapsam</dt>
+            <dd class="mt-1 font-display text-2xl font-semibold text-white sm:text-3xl">81 il</dd>
+          </div>
+          <div class="bg-forest-950/40 p-4 sm:p-5">
+            <dt class="text-xs uppercase tracking-wider text-forest-200">Saha</dt>
+            <dd class="mt-1 font-display text-2xl font-semibold text-white sm:text-3xl">Göksu</dd>
+          </div>
+          <div class="bg-forest-950/40 p-4 sm:p-5">
+            <dt class="text-xs uppercase tracking-wider text-forest-200">Çalıştaya</dt>
+            <dd class="mt-1 font-display text-2xl font-semibold text-white sm:text-3xl"><span id="countdownDays">—</span> gün</dd>
+          </div>
+        </dl>
+      </div>
+
+      <a href="#hakkinda" class="scroll-cue absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-white/70 hover:text-white" aria-label="Aşağı kaydır">
+        <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+      </a>
+    </section>
+
+    <!-- ============ PROJE HAKKINDA ============ -->
+    <section id="hakkinda" class="relative py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="grid gap-14 lg:grid-cols-12 lg:gap-16">
+          <div class="reveal lg:col-span-5">
+            <p class="eyebrow">Proje Hakkında</p>
+            <h2 class="section-title mt-3">Canlılar, iklimin en dürüst <em class="text-forest-600">tanıklarıdır.</em></h2>
+            <p class="mt-6 text-lg leading-relaxed text-forest-900/75">
+              Biyo-indikatörler; varlıkları, yoklukları veya sağlık durumlarıyla çevredeki değişimi bize haber veren canlılardır.
+              Bir taşın üzerindeki likenin rengi, bir derenin alg yoğunluğu ya da endemik bir bitkinin çiçeklenme zamanı,
+              sensörlerin kaçırabildiği uzun vadeli sinyalleri taşır.
+            </p>
+            <p class="mt-4 leading-relaxed text-forest-900/75">
+              KGTÜ Biogen Topluluğu bünyesinde biyolojik bilimler alanında çalışan gençler olarak amacımız, iklim krizinin ekosistemler
+              üzerindeki etkilerini doğanın kendi dili olan biyolojik göstergeler üzerinden okumak. Çevrim içi ulusal çağrı ile Türkiye
+              genelinden görsel veriler toplanacak; seçici kurulun değerlendirmesine göre en nitelikli veriyi sağlayan
+              <strong class="text-forest-800">10 lisans öğrencisi</strong>, ekoloji ve botanik alanında uzman akademisyenler eşliğinde
+              Mersin Göksu Deltası'ndaki saha çalıştayına <strong class="text-forest-800">"Ulusal Saha Araştırmacısı"</strong> olarak davet edilecek.
+            </p>
+            <p class="mt-4 leading-relaxed text-forest-900/75">
+              Çalıştay çıktıları, <em>"Gençlerin Gözünden Türkiye İklim Krizi Biyo-İndikatör Raporu"</em> adıyla dijital bir katalog
+              olarak yayımlanacak ve proje sonrasında da erişime açık kalacak.
+            </p>
+
+
+            <div class="mt-8 rounded-2xl border border-earth-200 bg-earth-50 p-6">
+              <p class="font-display text-xl font-medium italic leading-snug text-earth-800">
+                "Gençler iklim krizini pasif bir şekilde izleyen değil, bilimsel bir yaklaşımla belgeleyen sürecin aktif bir parçası olmalı."
+              </p>
+              <p class="mt-3 text-sm font-semibold text-earth-600">— KGTÜ Biogen Topluluğu</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid gap-5 sm:grid-cols-2">
+              <article class="indicator-card reveal">
+                <div class="indicator-icon bg-forest-100 text-forest-700">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="15" cy="7" r="2"/><circle cx="16" cy="15" r="3.5"/><circle cx="8" cy="16" r="2"/></svg>
+                </div>
+                <h3 class="indicator-title">Likenler</h3>
+                <p class="indicator-text">Hava kirliliğine son derece duyarlıdır. Tür çeşitliliği ve yoğunluğu, hava kalitesinin doğal bir haritasını çıkarır.</p>
+              </article>
+
+              <article class="indicator-card reveal">
+                <div class="indicator-icon bg-sky-100 text-sky-700">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3c2 3 3 5 3 6.5a3 3 0 0 1-6 0C9 8 10 6 12 3Z"/></svg>
+                </div>
+                <h3 class="indicator-title">Algler</h3>
+                <p class="indicator-text">Su kütlelerindeki ani çoğalmalar (alg patlamaları), ötrofikasyonun ve artan su sıcaklığının erken uyarısıdır.</p>
+              </article>
+
+              <article class="indicator-card reveal">
+                <div class="indicator-icon bg-earth-100 text-earth-700">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 7-7 0 4-3 7-7 7Z"/><path d="M12 15c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5Z"/></svg>
+                </div>
+                <h3 class="indicator-title">Endemik Bitkiler</h3>
+                <p class="indicator-text">Türkiye'de 3.000'i aşkın endemik bitki türü bulunur. Yayılış ve fenoloji değişimleri iklim kaymalarını yansıtır.</p>
+              </article>
+
+              <article class="indicator-card reveal">
+                <div class="indicator-icon bg-amber-100 text-amber-700">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><ellipse cx="12" cy="14" rx="4" ry="6"/><path d="M12 8V5M9 4l3 1 3-1M8 12H4M8 16H4.5M16 12h4M16 16h3.5"/></svg>
+                </div>
+                <h3 class="indicator-title">Böcekler &amp; Omurgasızlar</h3>
+                <p class="indicator-text">Tozlaşıcıların ve sucul makroomurgasızların varlığı, ekosistem sağlığının hassas bir göstergesidir.</p>
+              </article>
+            </div>
+
+            <div class="reveal mt-5 grid gap-5 rounded-3xl bg-forest-800 p-8 text-white sm:grid-cols-3">
+              <div>
+                <p class="font-display text-4xl font-semibold text-earth-300">01</p>
+                <p class="mt-2 font-semibold">Gözlemle</p>
+                <p class="mt-1 text-sm text-forest-100/80">Bölgende bir biyo-indikatör türü tespit et.</p>
+              </div>
+              <div>
+                <p class="font-display text-4xl font-semibold text-earth-300">02</p>
+                <p class="mt-2 font-semibold">Belgele</p>
+                <p class="mt-1 text-sm text-forest-100/80">Net bir fotoğraf ve kısa ekolojik not hazırla.</p>
+              </div>
+              <div>
+                <p class="font-display text-4xl font-semibold text-earth-300">03</p>
+                <p class="mt-2 font-semibold">Katkı Sun</p>
+                <p class="mt-1 text-sm text-forest-100/80">Verini yükle, ulusal veri setine dahil ol.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ÇALIŞTAY TAKVİMİ ============ -->
+    <section id="takvim" class="relative overflow-hidden bg-white py-24 lg:py-32">
+      <div class="timeline-bg" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-5xl px-5 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="eyebrow justify-center">Çalıştay Takvimi</p>
+          <h2 class="section-title mt-3">Gözlemden sahaya, 5 haftalık bir yolculuk</h2>
+          <p class="mt-5 text-lg text-forest-900/70">14 Ekim'de başlayan süreç, verinin toplanmasından dijital raporun yayımlanmasına kadar 13 Kasım 2026'da tamamlanır.</p>
+        </div>
+
+        <ol class="timeline mt-16">
+          <li class="timeline-item reveal" data-status="active">
+            <div class="timeline-dot"><span>1</span></div>
+            <div class="timeline-card">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="timeline-date">1.–2. Hafta · 14 – 27 Ekim 2026</span>
+                <span class="status-badge status-active">Devam ediyor</span>
+              </div>
+              <h3 class="timeline-title">Ulusal Çağrı ve Veri Toplama</h3>
+              <p class="timeline-text">Bölgendeki iklim krizi izlerini fotoğrafla ve ekolojik notunla birlikte siteye yükle.</p>
+            </div>
+          </li>
+
+          <li class="timeline-item reveal" data-status="upcoming">
+            <div class="timeline-dot"><span>2</span></div>
+            <div class="timeline-card">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="timeline-date">3.–4. Hafta · 28 Ekim – 5 Kasım 2026</span>
+                <span class="status-badge status-upcoming">Yaklaşıyor</span>
+              </div>
+              <h3 class="timeline-title">Akademik Değerlendirme ve Katılımcı Seçimi</h3>
+              <p class="timeline-text">Uzman seçici kurul verileri inceler ve 10 "Ulusal Saha Araştırmacısı"nı belirler.</p>
+            </div>
+          </li>
+
+          <li class="timeline-item timeline-highlight reveal" data-status="upcoming">
+            <div class="timeline-dot"><span>3</span></div>
+            <div class="timeline-card">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="timeline-date">6 – 7 Kasım 2026</span>
+                <span class="status-badge status-highlight">Ana Etkinlik</span>
+              </div>
+              <h3 class="timeline-title">Mersin Saha Çalıştayı</h3>
+              <p class="timeline-text">Seçilen öğrencilerle Göksu Deltası'nda iki günlük eğitim ve saha gözlemi.</p>
+              <ul class="workshop-days">
+                <li><strong>6 Kasım Cuma</strong> Varış, iklim krizi farkındalık eğitimleri ve Göksu Deltası'nda biyolojik göstergelerin yerinde incelenip fotoğraflanması.</li>
+                <li><strong>7 Kasım Cumartesi</strong> Web sitesi verileri ile saha bulgularının değerlendirme oturumunda tartışılması ve illere dönüş.</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="timeline-item reveal" data-status="upcoming">
+            <div class="timeline-dot"><span>4</span></div>
+            <div class="timeline-card">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="timeline-date">9 – 13 Kasım 2026</span>
+                <span class="status-badge status-upcoming">Planlandı</span>
+              </div>
+              <h3 class="timeline-title">Raporlama ve Dijital Yayın</h3>
+              <p class="timeline-text">Bulgular dijital bir biyo-indikatör raporu olarak yayımlanır.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ VERİ YÜKLE ============ -->
+    <section id="veri-yukle" class="relative py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-5 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-12">
+          <aside class="reveal lg:col-span-4">
+            <p class="eyebrow">Veri Yükle</p>
+            <h2 class="section-title mt-3">Gözlemini paylaş</h2>
+            <p class="mt-5 text-forest-900/70">Formu eksiksiz doldur. Her katılımcı birden fazla gözlem gönderebilir; değerlendirmede nicelikten çok nitelik esas alınır.</p>
+            <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-earth-100 px-4 py-2 text-sm font-semibold text-earth-800">
+              ⏳ Son yükleme: 27 Ekim 2026 gecesi
+            </p>
+
+            <div class="mt-8 space-y-4">
+              <div class="tip">
+                <span class="tip-icon">📸</span>
+                <div><p class="font-semibold text-forest-900">Net ve yakın çekim</p><p class="text-sm text-forest-900/65">Türün ayırt edici özellikleri görünür olsun. Ölçek için yanına bir madeni para koyabilirsin.</p></div>
+              </div>
+              <div class="tip">
+                <span class="tip-icon">🧭</span>
+                <div><p class="font-semibold text-forest-900">Konum ve habitat</p><p class="text-sm text-forest-900/65">Gözlem yerini, yüksekliği ve habitat tipini (orman, dere kenarı, kaya yüzeyi…) belirt.</p></div>
+              </div>
+              <div class="tip">
+                <span class="tip-icon">🌿</span>
+                <div><p class="font-semibold text-forest-900">Doğaya saygı</p><p class="text-sm text-forest-900/65">Örnek toplama, koparma veya habitatı bozma. Sadece gözlemle ve fotoğrafla.</p></div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="reveal lg:col-span-8">
+            <form id="uploadForm" class="form-card" novalidate>
+              <fieldset>
+                <legend class="form-legend">Katılımcı Bilgileri</legend>
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div class="field">
+                    <label for="ad">Ad</label>
+                    <input id="ad" name="ad" type="text" autocomplete="given-name" placeholder="Adınız" required />
+                    <p class="field-error">Lütfen adınızı girin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="soyad">Soyad</label>
+                    <input id="soyad" name="soyad" type="text" autocomplete="family-name" placeholder="Soyadınız" required />
+                    <p class="field-error">Lütfen soyadınızı girin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="eposta">E-posta</label>
+                    <input id="eposta" name="eposta" type="email" autocomplete="email" placeholder="ornek@universite.edu.tr" required />
+                    <p class="field-error">Lütfen geçerli bir e-posta adresi girin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="duzey">Öğrenim Düzeyi</label>
+                    <div class="select-wrap">
+                      <select id="duzey" name="duzey" required>
+                        <option value="" disabled selected>Seçiniz</option>
+                        <option value="lisans">Lisans</option>
+                        <option value="on-lisans">Ön Lisans</option>
+                      </select>
+                    </div>
+                    <p class="field-error">Lütfen öğrenim düzeyinizi seçin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="universite">Üniversite</label>
+                    <input id="universite" name="universite" type="text" placeholder="ör. Konya Gıda ve Tarım Üniversitesi" required />
+                    <p class="field-error">Lütfen üniversitenizi girin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="il">Bulunduğunuz İl</label>
+                    <div class="select-wrap">
+                      <select id="il" name="il" required>
+                        <option value="" disabled selected>İl seçiniz</option>
+                      </select>
+                    </div>
+                    <p class="field-error">Lütfen bir il seçin.</p>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="mt-10">
+                <legend class="form-legend">Gözlem Bilgileri</legend>
+
+                <div class="field">
+                  <span class="label">Gözlem Türü</span>
+                  <div class="type-grid" role="radiogroup" aria-label="Gözlem türü">
+                    <label class="type-option"><input type="radio" name="tur" value="liken" required /><span>🪨 Liken</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="alg" /><span>💧 Alg</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="endemik-bitki" /><span>🌱 Endemik Bitki</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="kuruyan-bitki" /><span>🍂 Kuruyan Bitki</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="bocek" /><span>🐞 Böcek</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="yosun" /><span>🍃 Karayosunu</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="tahribat" /><span>🔥 Tahribat İzi</span></label>
+                    <label class="type-option"><input type="radio" name="tur" value="diger" /><span>🔬 Diğer</span></label>
+                  </div>
+                  <p class="field-error">Lütfen bir gözlem türü seçin.</p>
+                </div>
+
+                <div class="field mt-6">
+                  <label for="konum">Gözlem Konumu</label>
+                  <input id="konum" name="konum" type="text" placeholder="İlçe / mevki veya koordinat (ör. Silifke, Göksu Deltası · 36.31, 34.02)" required />
+                  <p class="field-error">Lütfen gözlem konumunu girin.</p>
+                </div>
+
+                <div class="field mt-6">
+                  <span class="label">Fotoğraf</span>
+                  <label id="dropzone" for="foto" class="dropzone">
+                    <input id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp,image/heic" multiple class="sr-only" />
+                    <span class="grid h-14 w-14 place-items-center rounded-2xl bg-forest-100 text-forest-700">
+                      <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>
+                    </span>
+                    <span class="mt-4 font-semibold text-forest-900">Fotoğrafları sürükleyip bırakın <span class="text-forest-600 underline underline-offset-4">veya seçin</span></span>
+                    <span class="mt-1 text-sm text-forest-900/55">JPG, PNG, WEBP veya HEIC · En fazla 3 dosya · Dosya başına 10 MB</span>
+                  </label>
+                  <ul id="previewList" class="preview-list" aria-live="polite"></ul>
+                  <p class="field-error" id="fotoError">Lütfen en az bir fotoğraf yükleyin.</p>
+                </div>
+
+                <div class="field mt-6">
+                  <div class="flex items-baseline justify-between">
+                    <label for="aciklama">Kısa Ekolojik Açıklama</label>
+                    <span id="charCount" class="text-xs font-medium text-forest-900/50">0 / 500</span>
+                  </div>
+                  <textarea id="aciklama" name="aciklama" rows="5" maxlength="500" placeholder="Gözlem yeri, habitat, tarih, hava durumu ve türün durumu hakkındaki gözlemleriniz…" required></textarea>
+                  <p class="field-error">Lütfen en az 30 karakterlik bir açıklama yazın.</p>
+                </div>
+
+                <label class="mt-6 flex items-start gap-3 text-sm text-forest-900/75">
+                  <input id="kvkk" type="checkbox" class="mt-0.5 h-5 w-5 shrink-0 rounded border-forest-300 accent-forest-600" required />
+                  <span>Yüklediğim verilerin bilimsel amaçla kullanılmasına ve <button type="button" class="kvkk-link" data-open-modal="kvkkModal" aria-haspopup="dialog">KVKK Aydınlatma Metni</button> kapsamında işlenmesine onay veriyorum.</span>
+                </label>
+                <p class="field-error" id="kvkkError">Devam etmek için onay vermeniz gerekiyor.</p>
+              </fieldset>
+
+              <div class="mt-10 flex flex-col-reverse gap-4 border-t border-forest-900/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+                <button type="reset" class="text-sm font-semibold text-forest-900/60 hover:text-forest-900">Formu temizle</button>
+                <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-full bg-forest-600 px-8 py-4 font-semibold text-white shadow-lg shadow-forest-900/20 transition hover:-translate-y-0.5 hover:bg-forest-700">
+                  Gözlemi Gönder
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" /></svg>
+                </button>
+              </div>
+            </form>
+
+            <div id="formSuccess" class="form-card text-center" hidden>
+              <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-forest-100 text-forest-700">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7" /></svg>
+              </div>
+              <h3 class="mt-6 font-display text-3xl font-semibold text-forest-900">Teşekkürler, <span id="successName"></span>!</h3>
+              <p class="mx-auto mt-3 max-w-md text-forest-900/70">Gözlemin başarıyla alındı. Akademik değerlendirme 28 Ekim – 5 Kasım 2026 tarihleri arasında yapılacak; seçilen 10 Ulusal Saha Araştırmacısı e-posta ile bilgilendirilecektir.</p>
+              <p class="mt-2 text-xs text-forest-900/45">(Bu bir ön yüz demosudur; veri herhangi bir sunucuya gönderilmemiştir.)</p>
+              <button id="newEntry" type="button" class="mt-8 rounded-full border border-forest-600 px-6 py-3 font-semibold text-forest-700 transition hover:bg-forest-50">Yeni gözlem ekle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER / İLETİŞİM ============ -->
+  <footer id="iletisim" class="relative overflow-hidden bg-forest-950 text-forest-100">
+    <div class="footer-glow" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-5 pb-10 pt-20 lg:px-8">
+      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-3">
+            <span class="logo-badge h-24 w-24 ring-4 ring-white/10 sm:h-28 sm:w-28">
+              <img src="images/biogen.jpg" alt="KGTÜ Biogen Topluluğu logosu" width="112" height="112" loading="lazy" />
+            </span>
+            <div>
+              <p class="font-display text-xl font-semibold text-white">KGTÜ Biogen Topluluğu</p>
+              <p class="text-xs uppercase tracking-[0.18em] text-forest-300">Biyoloji · Genetik · Biyoteknoloji</p>
+            </div>
+          </div>
+          <p class="mt-6 max-w-md text-sm leading-relaxed text-forest-200/75">
+            Türkiye İklim Krizi Biyo-İndikatörleri: Ulusal Saha Gözlem ve Veri Toplama Çalıştayı, KGTÜ Biogen Topluluğu tarafından vatandaş bilimi yaklaşımıyla yürütülmektedir.
+          </p>
+        </div>
+
+        <div>
+          <p class="footer-heading">Hızlı Erişim</p>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li><a href="#hakkinda" class="footer-link">Proje Hakkında</a></li>
+            <li><a href="#takvim" class="footer-link">Çalıştay Takvimi</a></li>
+            <li><a href="#veri-yukle" class="footer-link">Veri Yükle</a></li>          </ul>
+        </div>
+
+        <div>
+          <p class="footer-heading">İletişim</p>
+          <ul class="mt-4 space-y-2.5 text-sm text-forest-200/80">
+            <li>Konya Gıda ve Tarım Üniversitesi<br />Konya, Türkiye</li>
+            <li>
+              <a href="mailto:kgtubiogentoplulugu@gmail.com" class="footer-link inline-flex items-center gap-2 break-all">
+                <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                kgtubiogentoplulugu@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/kgtubiogen.toplulugu/" target="_blank" rel="noopener noreferrer" class="footer-link inline-flex items-center gap-2">
+                <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                @kgtubiogen.toplulugu
+              </a>
+            </li>
+            <li>
+              <a href="https://chat.whatsapp.com/EvxjlQGGt9iJdBTVM8ygaH?s=cl&amp;p=a&amp;ilr=1" target="_blank" rel="noopener noreferrer" class="footer-link inline-flex items-center gap-2">
+                <svg class="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35ZM12.04 21.5h-.01a9.45 9.45 0 0 1-4.82-1.32l-.35-.21-3.58.94.96-3.49-.23-.36a9.43 9.43 0 0 1-1.45-5.03c0-5.21 4.25-9.46 9.48-9.46a9.4 9.4 0 0 1 6.7 2.78 9.4 9.4 0 0 1 2.77 6.69c0 5.22-4.25 9.46-9.47 9.46Zm8.06-17.52A11.32 11.32 0 0 0 12.04.64C5.76.64.65 5.75.65 12.03c0 2.01.52 3.97 1.52 5.69L.55 23.64l6.05-1.59a11.4 11.4 0 0 0 5.44 1.39h.01c6.28 0 11.39-5.11 11.39-11.39 0-3.04-1.18-5.9-3.34-8.07Z"/></svg>
+                WhatsApp Topluluk Grubu
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-forest-300/70 sm:flex-row sm:items-center sm:justify-between">
+        <p>© <span id="year">2026</span> KGTÜ Biogen Topluluğu. Tüm hakları saklıdır.</p>
+        <p>Doğa için, veriyle. 🌿</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ KVKK MODAL ============ -->
+  <dialog id="kvkkModal" class="modal" aria-labelledby="kvkkTitle">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">Kişisel Verilerin Korunması</p>
+          <h2 id="kvkkTitle" class="mt-2 font-display text-2xl font-semibold leading-tight text-forest-900 sm:text-3xl">KGTÜ Biogen Topluluğu – KVKK Aydınlatma Metni</h2>
+        </div>
+        <button type="button" class="modal-close" data-close-modal aria-label="Kapat">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6 6 18" /></svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <p>
+          <em>"Türkiye İklim Krizi Biyo-İndikatörleri: Ulusal Saha Gözlem ve Veri Toplama Çalıştayı"</em> projesi kapsamında,
+          veri sorumlusu sıfatıyla KGTÜ Biogen Topluluğu olarak kişisel verilerinizi 6698 sayılı Kişisel Verilerin Korunması
+          Kanunu ("KVKK") uyarınca işlemekteyiz.
+        </p>
+
+        <h3>1. İşlenen Kişisel Verileriniz</h3>
+        <p>
+          Kimlik verileriniz (Ad, Soyad), İletişim verileriniz (E-posta), Eğitim bilgileriniz (Öğrenim düzeyi, Üniversite),
+          Konum verileriniz (İl, Koordinat/Mevki) ve Görsel/İşitsel verileriniz (Sisteme yüklediğiniz ekolojik fotoğraflar).
+        </p>
+
+        <h3>2. Kişisel Verilerin İşlenme Amacı</h3>
+        <p>
+          Verileriniz; projeye katılım başvurunuzun alınması, Akademik Seçici Kurul tarafından verilerin bilimsel
+          değerlendirmesinin yapılması, Mersin Göksu Deltası Saha Çalıştayı'na katılacak 10 asil araştırmacının belirlenmesi,
+          proje kapsamında iletişim kurulması ve proje çıktısı olan "Gençlerin Gözünden Türkiye İklim Krizi Biyo-İndikatör
+          Raporu"nun hazırlanması amacıyla işlenmektedir.
+        </p>
+
+        <h3>3. Kişisel Verilerin Aktarılması</h3>
+        <p>
+          Toplanan verileriniz, yalnızca yukarıda belirtilen amaçlar doğrultusunda; proje destekçisi Gençlik ve Spor Bakanlığı
+          (ÜNİDES) birimlerine raporlama amacıyla ve değerlendirme sürecini yürütecek olan uzman akademisyenlerimize
+          (Seçici Kurul) aktarılabilecektir.
+        </p>
+
+        <h3>4. KVKK Madde 11 Kapsamındaki Haklarınız</h3>
+        <p>
+          Kanun'un 11. maddesi uyarınca; kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi
+          talep etme, eksik veya yanlış işlenmişse düzeltilmesini isteme haklarına sahipsiniz. Taleplerinizi
+          <a href="mailto:kgtubiogentoplulugu@gmail.com">kgtubiogentoplulugu@gmail.com</a> adresi üzerinden bize iletebilirsiniz.
+        </p>
+      </div>
+
+      <footer class="modal-footer">
+        <button type="button" class="rounded-full bg-forest-600 px-6 py-3 font-semibold text-white transition hover:bg-forest-700" data-close-modal>Okudum, anladım</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <button id="toTop" class="to-top" aria-label="Sayfa başına dön" hidden>
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 15 6-6 6 6" /></svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
