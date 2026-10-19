@@ -93,8 +93,22 @@ Tipografi: **Fraunces** (başlıklar) · **Plus Jakarta Sans** (metin)
 
 ## 🔧 Geliştirme Notları
 
-- Form şu an **yalnızca ön yüz** olarak çalışır; gönderilen veri tarayıcı konsoluna yazdırılır.
-  Bir backend bağlamak için `script.js` içindeki `submit` olayında `payload` nesnesini bir API'ye `FormData` olarak gönderin.
+- **Veri kaydı Supabase ile yapılır.** Form gönderimleri `gozlemler` tablosuna (Postgres), fotoğraflar
+  `gozlem-fotograflari` adlı private storage bucket'ına yüklenir. Fotoğraflar gönderilmeden önce tarayıcıda
+  sıkıştırılır (JPG/PNG/WEBP → uzun kenar en fazla 1600 px, JPEG; HEIC/HEIF olduğu gibi gönderilir).
+- **Veritabanı kurulumu:** `supabase/schema.sql` dosyasını Supabase **SQL Editor**'de tek seferde çalıştırın.
+  Betik idempotenttir; tablo, kısıtlar, RLS, bucket ve storage policy'lerini oluşturur ya da günceller.
+  Ziyaretçiler (anon) yalnızca kayıt **ekleyebilir**; okuma, güncelleme ve silme yetkisi yoktur.
+- **Son yükleme tarihi iki yerde tanımlıdır ve birlikte güncellenmelidir:**
+  - `supabase/schema.sql` → `public.gozlem_son_tarih()` fonksiyonu (sunucuda asıl engel; değiştirdikten sonra
+    fonksiyonu SQL Editor'de yeniden çalıştırın)
+  - `script.js` → `SUBMIT_DEADLINE` sabiti (yalnızca kullanıcıya gösterilecek hata mesajını seçmek için)
+- **Kayıtları görüntüleme:** Supabase panelinde **Table Editor → gozlemler** tablosundan görülür ve
+  **Export → CSV** ile indirilebilir. Fotoğraflar **Storage → gozlem-fotograflari** altında, kayıt
+  `id`'siyle adlandırılmış klasörlerdedir. Hazır sorgular `schema.sql` dosyasının sonunda yer alır.
+- **Anahtarlar:** `script.js` içindeki `SUPABASE_URL` ve publishable (anon) key'in kodda açık durması normaldir;
+  bu anahtar tarayıcıda kullanılmak üzere tasarlanmıştır ve yetkileri RLS ile sınırlıdır.
+  **Secret / `service_role` key asla koda, repoya veya istemciye konmamalıdır** — tüm RLS kurallarını atlar.
 - KVKK Aydınlatma Metni, formdaki bağlantıdan açılan bir modal (`<dialog id="kvkkModal">`) içinde yer alır; metni güncellemek için `index.html` içindeki bu bloğu düzenleyin.
 - Tailwind CDN geliştirme içindir; canlı ortam için Tailwind CLI ile derlenmiş bir CSS dosyası önerilir.
 
