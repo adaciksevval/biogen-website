@@ -1,7 +1,15 @@
 /* =========================================================
    KGTÜ Biogen Topluluğu — Biyo-İndikatörler Projesi
-   Etkileşimler: navigasyon, scroll animasyonları, form (front-end)
+   Etkileşimler: navigasyon, scroll animasyonları, form (Supabase)
    ========================================================= */
+
+/* ---------- Supabase (anon key herkese açıktır; güvenliği RLS sağlar) ---------- */
+const SUPABASE_URL = 'https://cyvxhnztzwdcgunczoog.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_WBa5CBplt6jKIE8EZo2SEA_4TGo_MRj';
+const KVKK_METIN_SURUMU = '2026-10';
+const STORAGE_BUCKET = 'gozlem-fotograflari';
+// supabase/schema.sql → gozlem_son_tarih() ile aynı tutulmalı (yalnızca hata mesajı seçimi için)
+const SUBMIT_DEADLINE = new Date('2026-10-27T23:59:59+03:00');
 
 document.documentElement.classList.add('js');
 
@@ -9,6 +17,14 @@ const WORKSHOP_DATE = new Date('2026-11-06T09:00:00+03:00');
 const MAX_FILES = 3;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const MIN_DESC_LENGTH = 30;
+
+// Kabul edilen fotoğraf türleri (GIF, SVG vb. reddedilir)
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
+const TYPE_BY_EXT = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', heic: 'image/heic', heif: 'image/heif' };
+const EXT_BY_TYPE = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/heic': 'heic', 'image/heif': 'heif' };
+const COMPRESSIBLE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const COMPRESS_MAX_EDGE = 1600;
+const COMPRESS_QUALITY = 0.82;
 
 const ILLER = [
   'Adana', 'Adıyaman', 'Afyonkarahisar', 'Ağrı', 'Aksaray', 'Amasya', 'Ankara', 'Antalya', 'Ardahan', 'Artvin',
@@ -158,7 +174,92 @@ function initCountdown() {
   el.textContent = days > 0 ? days : '0';
 }
 
-/* ---------- Upload form (front-end only) ---------- */
+/* ---------- Photo helpers ---------- */
+// Windows'ta HEIC dosyalarının file.type değeri boş gelebilir; o zaman uzantıya bakılır.
+function resolveImageType(file) {
+  if (file.type) return ALLOWED_TYPES.includes(file.type) ? file.type : null;
+  const ext = file.name.split('.').pop().toLowerCase();
+  return TYPE_BY_EXT[ext] || null;
+}
+
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error(`"${file.name}" çözümlenemedi.`)); };
+    img.src = url;
+  });
+}
+
+// Uzun kenarı en fazla COMPRESS_MAX_EDGE px olan JPEG'e dönüştürür.
+async function compressImage(file) {
+  const img = await loadImage(file);
+  const scale = Math.min(1, COMPRESS_MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(img.naturalWidth * scale);
+  canvas.height = Math.round(img.naturalHeight * scale);
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff'; // PNG/WEBP saydamlığı JPEG'de siyaha dönmesin
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Sıkıştırma başarısız.'))), 'image/jpeg', COMPRESS_QUALITY);
+  });
+}
+
+// Storage'a gidecek gövdeyi, yolu ve contentType'ı hazırlar: {id}/{sira}.{uzanti}
+async function prepareUpload(file, id, index) {
+  const type = resolveImageType(file);
+  let body = file;
+  let contentType = type;
+
+  if (COMPRESSIBLE_TYPES.includes(type)) {
+    try {
+      body = await compressImage(file);
+      contentType = 'image/jpeg';
+    } catch (err) {
+      console.warn('[KGTÜ Biogen] Sıkıştırma atlandı, orijinal dosya gönderiliyor:', err);
+    }
+  }
+  return { path: `${id}/${index + 1}.${EXT_BY_TYPE[contentType]}`, body, contentType };
+}
+
+/* ---------- Submission errors ---------- */
+const SUBMIT_MESSAGES = {
+  config: 'Sistem henüz yapılandırılmadı. Lütfen daha sonra tekrar deneyin veya bizimle iletişime geçin.',
+  deadline: 'Son yükleme tarihi geçtiği için yeni gözlem kabul edilmiyor.',
+  rejected: 'Gönderim reddedildi. Cihazınızın tarih/saat ayarını kontrol edip tekrar deneyin.',
+  network: 'Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.',
+  general: 'Gözlem gönderilirken beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.'
+};
+
+function classifySubmitError(err) {
+  if (err?.kind) return err.kind;
+  const text = `${err?.message || ''} ${err?.error || ''}`;
+  // RLS reddi: tablo (42501) veya storage (403). Son tarih geçmemişse en olası neden
+  // cihaz saatinin ileri olması (kvkk_onay_zamani kontrolü).
+  if (err?.code === '42501' || String(err?.statusCode) === '403' || /row-level security/i.test(text)) {
+    return new Date() > SUBMIT_DEADLINE ? 'deadline' : 'rejected';
+  }
+  if (!navigator.onLine || /failed to fetch|networkerror|load failed|network/i.test(text)) return 'network';
+  return 'general';
+}
+
+const isSupabaseConfigured = () => !SUPABASE_URL.startsWith('BURAYA') && !SUPABASE_ANON_KEY.startsWith('BURAYA');
+
+let supabaseClient = null;
+function getSupabase() {
+  if (!window.supabase?.createClient) {
+    throw Object.assign(new Error('supabase-js yüklenemedi (CDN erişilemedi).'), { kind: 'network' });
+  }
+  supabaseClient ??= window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false }
+  });
+  return supabaseClient;
+}
+
+/* ---------- Upload form ---------- */
 function initForm() {
   const form = document.getElementById('uploadForm');
   const success = document.getElementById('formSuccess');
@@ -171,8 +272,14 @@ function initForm() {
   const charCount = document.getElementById('charCount');
   const kvkk = document.getElementById('kvkk');
   const kvkkError = document.getElementById('kvkkError');
+  const formError = document.getElementById('formError');
+  const submitBtn = document.getElementById('submitBtn');
+  const submitLabel = document.getElementById('submitLabel');
+  const resetBtn = form.querySelector('button[type="reset"]');
 
   let files = [];
+  let kvkkAt = null;
+  let submitting = false;
 
   // Provinces
   ILLER.forEach((il) => select.add(new Option(il, il)));
@@ -189,7 +296,7 @@ function initForm() {
   const addFiles = (incoming) => {
     const messages = [];
     for (const file of incoming) {
-      if (!file.type.startsWith('image/')) { messages.push(`"${file.name}" bir görsel dosyası değil.`); continue; }
+      if (!resolveImageType(file)) { messages.push(`"${file.name}" desteklenmeyen bir biçimde (JPG, PNG, WEBP veya HEIC).`); continue; }
       if (file.size > MAX_FILE_SIZE) { messages.push(`"${file.name}" 10 MB sınırını aşıyor.`); continue; }
       if (files.length >= MAX_FILES) { messages.push(`En fazla ${MAX_FILES} fotoğraf yükleyebilirsiniz.`); break; }
       files.push(file);
@@ -283,6 +390,9 @@ function initForm() {
     return firstInvalid;
   };
 
+  // KVKK onay anı: işaretlenince kaydet, kaldırılınca sıfırla
+  kvkk.addEventListener('change', () => { kvkkAt = kvkk.checked ? new Date() : null; });
+
   // Clear an error as soon as the user fixes the field
   form.addEventListener('input', (e) => {
     if (e.target.name === 'tur' || e.target.value?.trim()) setError(e.target, false);
@@ -292,8 +402,66 @@ function initForm() {
     if (e.target.tagName === 'SELECT' || e.target.name === 'tur') setError(e.target, false);
   });
 
-  form.addEventListener('submit', (e) => {
+  // ---- Submission ----
+  const showFormError = (message) => {
+    formError.textContent = message;
+    formError.hidden = false;
+    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  const hideFormError = () => {
+    formError.hidden = true;
+    formError.textContent = '';
+  };
+
+  const setSubmitting = (state) => {
+    submitting = state;
+    submitBtn.disabled = state;
+    resetBtn.disabled = state;
+    submitBtn.setAttribute('aria-busy', String(state));
+    submitLabel.textContent = state ? 'Gönderiliyor…' : 'Gözlemi Gönder';
+  };
+
+  const submitObservation = async () => {
+    const supabase = getSupabase();
+    const data = new FormData(form);
+    const text = (name) => String(data.get(name) ?? '').trim();
+    const id = crypto.randomUUID();
+
+    const uploads = await Promise.all(files.map((file, i) => prepareUpload(file, id, i)));
+    const results = await Promise.all(uploads.map(({ path, body, contentType }) =>
+      supabase.storage.from(STORAGE_BUCKET).upload(path, body, { contentType, upsert: false })
+    ));
+    const uploadError = results.find((r) => r.error)?.error;
+    if (uploadError) throw uploadError;
+
+    const row = {
+      id,
+      ad: text('ad'),
+      soyad: text('soyad'),
+      eposta: text('eposta').toLowerCase(),
+      duzey: text('duzey'),
+      universite: text('universite'),
+      il: text('il'),
+      tur: text('tur'),
+      konum: text('konum'),
+      aciklama: text('aciklama'),
+      foto_yollari: uploads.map((u) => u.path),
+      kvkk_onay: data.get('kvkk') === 'evet',
+      // Tarayıcı kutuyu change olayı olmadan geri yüklediyse gönderim anı kullanılır
+      kvkk_onay_zamani: (kvkkAt ?? new Date()).toISOString(),
+      kvkk_metin_surumu: KVKK_METIN_SURUMU
+    };
+    // .select() yok: anon rolünün okuma izni bulunmuyor
+    const { error } = await supabase.from('gozlemler').insert(row);
+    if (error) throw error;
+    return row;
+  };
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    hideFormError();
+
     const firstInvalid = validate();
     if (firstInvalid) {
       (fieldOf(firstInvalid) || firstInvalid).scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -301,12 +469,25 @@ function initForm() {
       return;
     }
 
-    // Demo: collect the payload that a backend would receive
-    const payload = Object.fromEntries(new FormData(form));
-    payload.foto = files.map((f) => ({ ad: f.name, boyut: f.size, tur: f.type }));
-    console.info('[KGTÜ Biogen] Gönderilecek veri (demo):', payload);
+    if (!isSupabaseConfigured()) {
+      console.error('[KGTÜ Biogen] Supabase yapılandırılmamış: script.js başındaki SUPABASE_URL ve SUPABASE_ANON_KEY sabitlerini projenizin değerleriyle değiştirin (Supabase → Project Settings → API).');
+      showFormError(SUBMIT_MESSAGES.config);
+      return;
+    }
 
-    document.getElementById('successName').textContent = payload.ad.trim();
+    setSubmitting(true);
+    let row;
+    try {
+      row = await submitObservation();
+    } catch (err) {
+      console.error('[KGTÜ Biogen] Gönderim hatası:', err);
+      showFormError(SUBMIT_MESSAGES[classifySubmitError(err)]);
+      return;
+    } finally {
+      setSubmitting(false);
+    }
+
+    document.getElementById('successName').textContent = row.ad;
     form.hidden = true;
     success.hidden = false;
     success.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -314,6 +495,8 @@ function initForm() {
 
   form.addEventListener('reset', () => {
     files = [];
+    kvkkAt = null;
+    hideFormError();
     renderPreviews();
     form.querySelectorAll('.has-error').forEach((f) => f.classList.remove('has-error'));
     fotoError.classList.remove('is-visible');

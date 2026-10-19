@@ -359,6 +359,34 @@ html { scroll-padding-top: var(--header-h); }
 .has-error input[type="text"], .has-error input[type="email"], .has-error select, .has-error textarea, .has-error .dropzone { border-color: #e5847b; background: #fff8f7; }
 .has-error .type-option span { border-color: #f0b4ae; }
 
+.form-alert {
+  display: flex; align-items: flex-start; gap: .75rem;
+  margin-bottom: 2rem; padding: .9rem 1.1rem;
+  border: 1px solid #f0b4ae; border-radius: 1rem;
+  background: #fff8f7; color: #b42318;
+  font-size: .9rem; font-weight: 500; line-height: 1.5;
+}
+.form-alert[hidden] { display: none; }
+.form-alert::before {
+  content: "!";
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  background: #b42318; color: #fff;
+  font-size: .8rem; font-weight: 700;
+}
+
+/* Gönderim sırasında: Tailwind hover sınıflarını ezmek için .form-card ile özgüllük artırıldı */
+.form-card .submit-btn:disabled { cursor: progress; opacity: .75; transform: none; background-color: var(--forest-600); box-shadow: none; }
+.form-card .submit-btn[aria-busy="true"] svg { display: none; }
+.form-card .submit-btn[aria-busy="true"]::before {
+  content: "";
+  width: 1.1rem; height: 1.1rem; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.form-card button[type="reset"]:disabled { cursor: not-allowed; opacity: .4; }
+
 /* ---------- Footer ---------- */
 .footer-glow {
   position: absolute; top: -40%; left: 50%;
