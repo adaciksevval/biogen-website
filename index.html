@@ -55,7 +55,6 @@
         <li><a href="#anasayfa" class="nav-link">Ana Sayfa</a></li>
         <li><a href="#hakkinda" class="nav-link">Proje Hakkında</a></li>
         <li><a href="#takvim" class="nav-link">Çalıştay Takvimi</a></li>
-        <li><a href="#veri-yukle" class="nav-link">Veri Yükle</a></li>
         <li><a href="#iletisim" class="nav-link">İletişim</a></li>
       </ul>
 
@@ -241,11 +240,11 @@
         </div>
 
         <ol class="timeline mt-16">
-          <li class="timeline-item reveal" data-status="active">
+          <li class="timeline-item reveal" data-status="active" data-start="2026-10-14T00:00:00+03:00" data-end="2026-11-02T23:59:59+03:00">
             <div class="timeline-dot"><span>1</span></div>
             <div class="timeline-card">
               <div class="flex flex-wrap items-center gap-3">
-                <span class="timeline-date">1.–2. Hafta · 14 – 27 Ekim 2026</span>
+                <span class="timeline-date">1.–3. Hafta · 14 Ekim – 2 Kasım 2026</span>
                 <span class="status-badge status-active">Devam ediyor</span>
               </div>
               <h3 class="timeline-title">Ulusal Çağrı ve Veri Toplama</h3>
@@ -253,11 +252,11 @@
             </div>
           </li>
 
-          <li class="timeline-item reveal" data-status="upcoming">
+          <li class="timeline-item reveal" data-status="upcoming" data-start="2026-11-03T00:00:00+03:00" data-end="2026-11-05T23:59:59+03:00">
             <div class="timeline-dot"><span>2</span></div>
             <div class="timeline-card">
               <div class="flex flex-wrap items-center gap-3">
-                <span class="timeline-date">3.–4. Hafta · 28 Ekim – 5 Kasım 2026</span>
+                <span class="timeline-date">4. Hafta · 3 – 5 Kasım 2026</span>
                 <span class="status-badge status-upcoming">Yaklaşıyor</span>
               </div>
               <h3 class="timeline-title">Akademik Değerlendirme ve Katılımcı Seçimi</h3>
@@ -265,7 +264,7 @@
             </div>
           </li>
 
-          <li class="timeline-item timeline-highlight reveal" data-status="upcoming">
+          <li class="timeline-item timeline-highlight reveal" data-status="upcoming" data-start="2026-11-06T00:00:00+03:00" data-end="2026-11-07T23:59:59+03:00">
             <div class="timeline-dot"><span>3</span></div>
             <div class="timeline-card">
               <div class="flex flex-wrap items-center gap-3">
@@ -281,7 +280,7 @@
             </div>
           </li>
 
-          <li class="timeline-item reveal" data-status="upcoming">
+          <li class="timeline-item reveal" data-status="upcoming" data-start="2026-11-09T00:00:00+03:00" data-end="2026-11-13T23:59:59+03:00">
             <div class="timeline-dot"><span>4</span></div>
             <div class="timeline-card">
               <div class="flex flex-wrap items-center gap-3">
@@ -305,7 +304,7 @@
             <h2 class="section-title mt-3">Gözlemini paylaş</h2>
             <p class="mt-5 text-forest-900/70">Formu eksiksiz doldur. Her katılımcı birden fazla gözlem gönderebilir; değerlendirmede nicelikten çok nitelik esas alınır.</p>
             <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-earth-100 px-4 py-2 text-sm font-semibold text-earth-800">
-              ⏳ Son yükleme: 27 Ekim 2026 gecesi
+              ⏳ Son yükleme: 2 Kasım 2026 gecesi
             </p>
 
             <div class="mt-8 space-y-4">
@@ -344,6 +343,11 @@
                     <label for="eposta">E-posta</label>
                     <input id="eposta" name="eposta" type="email" autocomplete="email" placeholder="ornek@universite.edu.tr" required />
                     <p class="field-error">Lütfen geçerli bir e-posta adresi girin.</p>
+                  </div>
+                  <div class="field">
+                    <label for="telefon">Telefon Numarası</label>
+                    <input id="telefon" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="05XX XXX XX XX" required />
+                    <p class="field-error">Lütfen geçerli bir telefon numarası girin.</p>
                   </div>
                   <div class="field">
                     <label for="duzey">Öğrenim Düzeyi</label>
@@ -436,12 +440,21 @@
               </div>
             </form>
 
+            <div id="formClosed" class="form-card text-center" hidden>
+              <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-earth-100 text-earth-700">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2" /></svg>
+              </div>
+              <h3 class="mt-6 font-display text-3xl font-semibold text-forest-900">Gözlem kabulü sona erdi</h3>
+              <p class="mx-auto mt-3 max-w-md text-forest-900/70">Son yükleme tarihi 2 Kasım 2026 gecesiydi. Katkı sunan herkese teşekkür ederiz! Akademik değerlendirme 3 – 5 Kasım 2026 tarihleri arasında yapılacak; seçilen 10 Ulusal Saha Araştırmacısı e-posta ile bilgilendirilecektir.</p>
+              <a href="#takvim" class="mt-8 inline-flex rounded-full border border-forest-600 px-6 py-3 font-semibold text-forest-700 transition hover:bg-forest-50">Çalıştay takvimine göz at</a>
+            </div>
+
             <div id="formSuccess" class="form-card text-center" hidden>
               <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-forest-100 text-forest-700">
                 <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7" /></svg>
               </div>
               <h3 class="mt-6 font-display text-3xl font-semibold text-forest-900">Teşekkürler, <span id="successName"></span>!</h3>
-              <p class="mx-auto mt-3 max-w-md text-forest-900/70">Gözlemin başarıyla alındı. Akademik değerlendirme 28 Ekim – 5 Kasım 2026 tarihleri arasında yapılacak; seçilen 10 Ulusal Saha Araştırmacısı e-posta ile bilgilendirilecektir.</p>
+              <p class="mx-auto mt-3 max-w-md text-forest-900/70">Gözlemin başarıyla alındı. Akademik değerlendirme 3 – 5 Kasım 2026 tarihleri arasında yapılacak; seçilen 10 Ulusal Saha Araştırmacısı e-posta ile bilgilendirilecektir.</p>
               <button id="newEntry" type="button" class="mt-8 rounded-full border border-forest-600 px-6 py-3 font-semibold text-forest-700 transition hover:bg-forest-50">Yeni gözlem ekle</button>
             </div>
           </div>
@@ -533,7 +546,7 @@
 
         <h3>1. İşlenen Kişisel Verileriniz</h3>
         <p>
-          Kimlik verileriniz (Ad, Soyad), İletişim verileriniz (E-posta), Eğitim bilgileriniz (Öğrenim düzeyi, Üniversite),
+          Kimlik verileriniz (Ad, Soyad), İletişim verileriniz (E-posta, Telefon), Eğitim bilgileriniz (Öğrenim düzeyi, Üniversite),
           Konum verileriniz (İl, Koordinat/Mevki) ve Görsel/İşitsel verileriniz (Sisteme yüklediğiniz ekolojik fotoğraflar).
         </p>
 

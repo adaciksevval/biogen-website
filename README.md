@@ -42,8 +42,8 @@ böylece ülke çapında, gönüllüler tarafından üretilen bir ekolojik veri 
 
 | Aşama | Başlık | Tarih |
 |:---:|---|---|
-| 1 | Ulusal Çağrı ve Veri Toplama | 14 – 27 Ekim 2026 |
-| 2 | Akademik Değerlendirme ve Katılımcı Seçimi | 28 Ekim – 5 Kasım 2026 |
+| 1 | Ulusal Çağrı ve Veri Toplama | 14 Ekim – 2 Kasım 2026 |
+| 2 | Akademik Değerlendirme ve Katılımcı Seçimi | 3 – 5 Kasım 2026 |
 | 3 | **Mersin Göksu Deltası Saha Çalıştayı** | **6 – 7 Kasım 2026** |
 | 4 | Raporlama ve Dijital Yayın | 9 – 13 Kasım 2026 |
 
@@ -65,7 +65,7 @@ biogen-website/
 - **Yapışkan navigasyon** — kaydırıldıkça buzlu cam görünümüne geçer, aktif bölümü vurgular
 - **Hero** — yalnızca CSS ile oluşturulmuş, orman yeşilinden koyu zeytin tonlarına pürüzsüz gradient arka plan ve çalıştaya kalan gün sayacı
 - **Zaman çizelgesi** — masaüstünde iki yönlü, mobilde dikey akış
-- **Veri yükleme formu** — e-posta, öğrenim düzeyi, 81 il listesi, gözlem konumu, gözlem türü seçimi, sürükle-bırak fotoğraf yükleme ve önizleme, karakter sayacı, satır içi doğrulama
+- **Veri yükleme formu** — e-posta, telefon, öğrenim düzeyi, 81 il listesi, gözlem konumu, gözlem türü seçimi, sürükle-bırak fotoğraf yükleme ve önizleme, karakter sayacı, satır içi doğrulama
 - **Erişilebilirlik** — klavye odak stilleri, ARIA etiketleri, `prefers-reduced-motion` desteği
 
 ## 🚀 Çalıştırma
@@ -99,10 +99,13 @@ Tipografi: **Fraunces** (başlıklar) · **Plus Jakarta Sans** (metin)
 - **Veritabanı kurulumu:** `supabase/schema.sql` dosyasını Supabase **SQL Editor**'de tek seferde çalıştırın.
   Betik idempotenttir; tablo, kısıtlar, RLS, bucket ve storage policy'lerini oluşturur ya da günceller.
   Ziyaretçiler (anon) yalnızca kayıt **ekleyebilir**; okuma, güncelleme ve silme yetkisi yoktur.
-- **Son yükleme tarihi iki yerde tanımlıdır ve birlikte güncellenmelidir:**
+- **Son yükleme tarihi birkaç yerde geçer ve birlikte güncellenmelidir:**
   - `supabase/schema.sql` → `public.gozlem_son_tarih()` fonksiyonu (sunucuda asıl engel; değiştirdikten sonra
     fonksiyonu SQL Editor'de yeniden çalıştırın)
-  - `script.js` → `SUBMIT_DEADLINE` sabiti (yalnızca kullanıcıya gösterilecek hata mesajını seçmek için)
+  - `script.js` → `SUBMIT_DEADLINE` sabiti (bu tarihten sonra form gizlenir, "Gözlem kabulü sona erdi" kartı gösterilir)
+  - `index.html` → "Son yükleme" notu, `#formClosed` kartındaki metin ve takvimin 1. aşamasındaki `data-end`
+- **Takvim rozetleri otomatiktir:** her aşamanın `data-start` / `data-end` tarihlerine göre
+  "Yaklaşıyor / Planlandı / Devam ediyor / Tamamlandı" olarak ayarlanır; tarih değişirse bu öznitelikleri de güncelleyin.
 - **Kayıtları görüntüleme:** Supabase panelinde **Table Editor → gozlemler** tablosundan görülür ve
   **Export → CSV** ile indirilebilir. Fotoğraflar **Storage → gozlem-fotograflari** altında, kayıt
   `id`'siyle adlandırılmış klasörlerdedir. Hazır sorgular `schema.sql` dosyasının sonunda yer alır.

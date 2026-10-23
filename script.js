@@ -8,8 +8,9 @@ const SUPABASE_URL = 'https://cyvxhnztzwdcgunczoog.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_WBa5CBplt6jKIE8EZo2SEA_4TGo_MRj';
 const KVKK_METIN_SURUMU = '2026-10';
 const STORAGE_BUCKET = 'gozlem-fotograflari';
-// supabase/schema.sql → gozlem_son_tarih() ile aynı tutulmalı (yalnızca hata mesajı seçimi için)
-const SUBMIT_DEADLINE = new Date('2026-10-27T23:59:59+03:00');
+// supabase/schema.sql → gozlem_son_tarih() ile aynı tutulmalı. Bu tarihten sonra form gizlenir
+// ve "kabul sona erdi" kartı gösterilir; asıl engel yine sunucudadır.
+const SUBMIT_DEADLINE = new Date('2026-11-02T23:59:59+03:00');
 
 document.documentElement.classList.add('js');
 
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initActiveNav();
   initReveal();
   initCountdown();
+  initTimeline();
   initForm();
   initModals();
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -174,6 +176,37 @@ function initCountdown() {
   el.textContent = days > 0 ? days : '0';
 }
 
+/* ---------- Timeline: aşama durumlarını bugünün tarihine göre ayarla ---------- */
+// HTML'deki rozetler JS çalışmazsa geçerli kalan varsayılanlardır.
+function initTimeline() {
+  const now = new Date();
+  let nextFound = false;
+
+  document.querySelectorAll('.timeline-item[data-start][data-end]').forEach((item) => {
+    const start = new Date(item.dataset.start);
+    const end = new Date(item.dataset.end);
+    const badge = item.querySelector('.status-badge');
+    const isHighlight = item.classList.contains('timeline-highlight');
+
+    let status, label, badgeClass;
+    if (now > end) {
+      [status, label, badgeClass] = ['done', 'Tamamlandı', 'status-done'];
+    } else if (now >= start) {
+      [status, label, badgeClass] = ['active', 'Devam ediyor', 'status-active'];
+    } else if (isHighlight) {
+      [status, label, badgeClass] = ['upcoming', 'Ana Etkinlik', 'status-highlight'];
+    } else {
+      // Sıradaki ilk aşama "Yaklaşıyor", sonrakiler "Planlandı"
+      [status, label, badgeClass] = ['upcoming', nextFound ? 'Planlandı' : 'Yaklaşıyor', 'status-upcoming'];
+    }
+    if (status === 'upcoming') nextFound = true;
+
+    item.dataset.status = status;
+    badge.textContent = label;
+    badge.className = `status-badge ${badgeClass}`;
+  });
+}
+
 /* ---------- Photo helpers ---------- */
 // Windows'ta HEIC dosyalarının file.type değeri boş gelebilir; o zaman uzantıya bakılır.
 function resolveImageType(file) {
@@ -263,6 +296,7 @@ function getSupabase() {
 function initForm() {
   const form = document.getElementById('uploadForm');
   const success = document.getElementById('formSuccess');
+  const closed = document.getElementById('formClosed');
   const select = document.getElementById('il');
   const fileInput = document.getElementById('foto');
   const dropzone = document.getElementById('dropzone');
@@ -280,6 +314,15 @@ function initForm() {
   let files = [];
   let kvkkAt = null;
   let submitting = false;
+
+  // Son tarih geçtiyse formu kapat (sayfa açıkken tarih geçerse sunucu reddi aynı kartı açar)
+  const isClosed = () => new Date() > SUBMIT_DEADLINE;
+  const showClosed = () => {
+    form.hidden = true;
+    success.hidden = true;
+    closed.hidden = false;
+  };
+  if (isClosed()) showClosed();
 
   // Provinces
   ILLER.forEach((il) => select.add(new Option(il, il)));
@@ -370,6 +413,10 @@ function initForm() {
     const eposta = document.getElementById('eposta');
     mark(eposta, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eposta.value.trim()));
 
+    // Accepts 5XX..., 05XX... or +90 5XX... with optional spaces, dashes or parentheses
+    const telefon = document.getElementById('telefon');
+    mark(telefon, !/^(?:\+?90|0)?\d{10}$/.test(telefon.value.replace(/[\s()-]/g, '')));
+
     const duzey = document.getElementById('duzey');
     mark(duzey, !duzey.value);
 
@@ -439,6 +486,8 @@ function initForm() {
       ad: text('ad'),
       soyad: text('soyad'),
       eposta: text('eposta').toLowerCase(),
+      // 0XXXXXXXXXX biçimine indirgenir (+90 / 0 öneki ve ayraçlar atılır)
+      telefon: `0${text('telefon').replace(/\D/g, '').slice(-10)}`,
       duzey: text('duzey'),
       universite: text('universite'),
       il: text('il'),
@@ -481,7 +530,13 @@ function initForm() {
       row = await submitObservation();
     } catch (err) {
       console.error('[KGTÜ Biogen] Gönderim hatası:', err);
-      showFormError(SUBMIT_MESSAGES[classifySubmitError(err)]);
+      const kind = classifySubmitError(err);
+      if (kind === 'deadline') {
+        showClosed();
+        closed.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        showFormError(SUBMIT_MESSAGES[kind]);
+      }
       return;
     } finally {
       setSubmitting(false);
@@ -506,6 +561,10 @@ function initForm() {
 
   document.getElementById('newEntry').addEventListener('click', () => {
     form.reset();
+    if (isClosed()) {
+      showClosed();
+      return;
+    }
     success.hidden = true;
     form.hidden = false;
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });

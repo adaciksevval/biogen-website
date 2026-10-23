@@ -191,6 +191,10 @@ html { scroll-padding-top: var(--header-h); }
   background: var(--forest-600); border-color: var(--forest-600); color: #fff;
   box-shadow: 0 0 0 6px rgba(47,122,79,.15);
 }
+.timeline-item[data-status="done"] .timeline-dot {
+  background: var(--forest-100); border-color: var(--forest-300); color: var(--forest-600);
+}
+.timeline-item[data-status="done"] .timeline-card { opacity: .75; }
 .timeline-highlight .timeline-dot {
   background: var(--earth-400); border-color: var(--earth-400); color: var(--forest-950);
   box-shadow: 0 0 0 6px rgba(185,143,92,.2);
@@ -223,6 +227,7 @@ html { scroll-padding-top: var(--header-h); }
 .status-active    { background: var(--forest-100); color: var(--forest-700); }
 .status-upcoming  { background: #eef0ee; color: #5b6b62; }
 .status-highlight { background: var(--earth-400); color: var(--forest-950); }
+.status-done      { background: #e6ebe7; color: #44564b; }
 
 .workshop-days { margin-top: 1rem; display: grid; text-align: left; gap: .6rem; font-size: .9rem; line-height: 1.55; color: rgba(213,232,219,.85); }
 .workshop-days li { padding: .75rem 1rem; border-radius: .9rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
@@ -265,6 +270,7 @@ html { scroll-padding-top: var(--header-h); }
 
 .field input[type="text"],
 .field input[type="email"],
+.field input[type="tel"],
 .field select,
 .field textarea {
   width: 100%;
@@ -356,7 +362,7 @@ html { scroll-padding-top: var(--header-h); }
 
 .field-error { display: none; margin-top: .4rem; font-size: .8rem; font-weight: 500; color: #b42318; }
 .has-error .field-error, .field-error.is-visible { display: block; }
-.has-error input[type="text"], .has-error input[type="email"], .has-error select, .has-error textarea, .has-error .dropzone { border-color: #e5847b; background: #fff8f7; }
+.has-error input[type="text"], .has-error input[type="email"], .has-error input[type="tel"], .has-error select, .has-error textarea, .has-error .dropzone { border-color: #e5847b; background: #fff8f7; }
 .has-error .type-option span { border-color: #f0b4ae; }
 
 .form-alert {

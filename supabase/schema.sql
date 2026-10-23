@@ -13,7 +13,7 @@
 --    INSERT policy'leri bu fonksiyonu kullanır.
 --
 --    ┌──────────────────────────────────────────────┐
---    │  SON TARİH: 2026-10-27 23:59:59+03           │
+--    │  SON TARİH: 2026-11-02 23:59:59+03           │
 --    └──────────────────────────────────────────────┘
 -- =========================================================
 
@@ -28,7 +28,7 @@ language sql
 stable
 set search_path = ''
 as $$
-  select timestamptz '2026-10-27 23:59:59+03';  -- ← SON TARİH (tek yer)
+  select timestamptz '2026-11-02 23:59:59+03';  -- ← SON TARİH (tek yer)
 $$;
 
 comment on function public.gozlem_son_tarih() is
@@ -99,6 +99,16 @@ comment on column public.gozlemler.foto_yollari      is 'gozlem-fotograflari buc
 comment on column public.gozlemler.kvkk_onay_zamani  is 'KVKK kutusunun işaretlendiği an (istemci saati).';
 comment on column public.gozlemler.kvkk_metin_surumu is 'Onay verilen KVKK Aydınlatma Metni sürümü.';
 
+-- Telefon sonradan eklendi: mevcut tabloya da uygulanması için ALTER ile.
+-- Kolon nullable (önceki kayıtlarda yok); NOT VALID kısıt yalnızca yeni kayıtları
+-- denetler ve null'a izin vermez, yani yeni gönderimlerde telefon zorunludur.
+alter table public.gozlemler add column if not exists telefon text;
+alter table public.gozlemler drop constraint if exists gozlemler_telefon_bicim;
+alter table public.gozlemler add constraint gozlemler_telefon_bicim
+  check (telefon is not null and telefon ~ '^0[0-9]{10}$') not valid;
+
+comment on column public.gozlemler.telefon is '0XXXXXXXXXX biçiminde telefon (önceki kayıtlarda boş).';
+
 create index if not exists gozlemler_created_at_idx on public.gozlemler (created_at desc);
 create index if not exists gozlemler_tur_idx        on public.gozlemler (tur);
 create index if not exists gozlemler_il_idx         on public.gozlemler (il);
@@ -113,7 +123,7 @@ create index if not exists gozlemler_il_idx         on public.gozlemler (il);
 revoke all on table public.gozlemler from anon, authenticated;
 
 grant insert (
-  id, ad, soyad, eposta, duzey, universite, il,
+  id, ad, soyad, eposta, telefon, duzey, universite, il,
   tur, konum, aciklama, foto_yollari,
   kvkk_onay, kvkk_onay_zamani, kvkk_metin_surumu
 ) on table public.gozlemler to anon;
@@ -175,7 +185,7 @@ commit;
 -- =========================================================
 
 -- Son 50 kayıt:
--- select id, created_at, ad, soyad, eposta, duzey, universite, il, tur, konum,
+-- select id, created_at, ad, soyad, eposta, telefon, duzey, universite, il, tur, konum,
 --        cardinality(foto_yollari) as foto_sayisi, kvkk_onay_zamani, kvkk_metin_surumu
 -- from public.gozlemler
 -- order by created_at desc
