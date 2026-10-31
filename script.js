@@ -10,7 +10,7 @@ const KVKK_METIN_SURUMU = '2026-10';
 const STORAGE_BUCKET = 'gozlem-fotograflari';
 // supabase/schema.sql → gozlem_son_tarih() ile aynı tutulmalı. Bu tarihten sonra form gizlenir
 // ve "kabul sona erdi" kartı gösterilir; asıl engel yine sunucudadır.
-const SUBMIT_DEADLINE = new Date('2026-11-02T23:59:59+03:00');
+const SUBMIT_DEADLINE = new Date('2026-11-04T23:59:59+03:00');
 
 document.documentElement.classList.add('js');
 

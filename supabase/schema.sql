@@ -13,7 +13,7 @@
 --    INSERT policy'leri bu fonksiyonu kullanır.
 --
 --    ┌──────────────────────────────────────────────┐
---    │  SON TARİH: 2026-11-02 23:59:59+03           │
+--    │  SON TARİH: 2026-11-04 23:59:59+03           │
 --    └──────────────────────────────────────────────┘
 -- =========================================================
 
@@ -28,7 +28,7 @@ language sql
 stable
 set search_path = ''
 as $$
-  select timestamptz '2026-11-02 23:59:59+03';  -- ← SON TARİH (tek yer)
+  select timestamptz '2026-11-04 23:59:59+03';  -- ← SON TARİH (tek yer)
 $$;
 
 comment on function public.gozlem_son_tarih() is

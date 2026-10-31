@@ -42,8 +42,8 @@ böylece ülke çapında, gönüllüler tarafından üretilen bir ekolojik veri 
 
 | Aşama | Başlık | Tarih |
 |:---:|---|---|
-| 1 | Ulusal Çağrı ve Veri Toplama | 14 Ekim – 2 Kasım 2026 |
-| 2 | Akademik Değerlendirme ve Katılımcı Seçimi | 3 – 5 Kasım 2026 |
+| 1 | Ulusal Çağrı ve Veri Toplama | 14 Ekim – 4 Kasım 2026 |
+| 2 | Akademik Değerlendirme ve Katılımcı Seçimi | 5 Kasım 2026 |
 | 3 | **Mersin Göksu Deltası Saha Çalıştayı** | **6 – 7 Kasım 2026** |
 | 4 | Raporlama ve Dijital Yayın | 9 – 13 Kasım 2026 |
 
